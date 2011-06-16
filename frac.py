@@ -62,51 +62,6 @@ def makeline(start, end, depth, len, color):
 
 i = 0
 
-def koch(start, end, depth, color):
-    global i
-    depth = depth - 1
-#    if color[1] > 32:
-#        color = (color[0] * ( 1 - random.random()*0.1), color[1] * ( 1 - random.random()*0.1), color[2])
-#    else:
-#        color = (color[0] * ( 1 - random.random()*0.1), color[1], color[2] * ( 1 - random.random()*0.1))
-#    p1 = mix(start, end, (2.25-random.random()*0.5)/3)
-#    p3 = mix(start, end, (1.25-random.random()*0.5)/3)
-#    p2 = rotate2d(-60+random.random()*60-30, p3, p1)
-    p1 = mix(start, end, 2.0/3)
-    p3 = mix(start, end, 1.0/3) 
-#    p2 = rotate2d(-60, p3, p1)
-    p2 = rotate2d(60, p3, p1)
-    if depth > 0:
-        color2 = (color[0], color[1] * 0.5, color[2])
-        color = (color[0], color[1], color[2] * 0.5)
-        koch(start, p1, depth, color)
-        koch(p1, p2, depth, color2)
-        koch(p2, p3, depth, color2)
-#        koch(p2, p1, depth, color2)
-#        koch(p3, p2, depth, color2)
-        koch(p3, end, depth, color)
-    else:
-        pygame.draw.line(window, color, start, end)
-        i = i + 1
-        if (i == 50):
-            for event in pygame.event.get(): 
-                if event.type == pygame.QUIT: 
-                    sys.exit(0) 
-                else: 
-                    print event 
-            pygame.display.flip() 
-            i = 0
-
-p1=(350,200)
-p2=(850,200)
-p3=rotate2d(60, p2, p1)
-
-maxdepth=9
-#koch (p1, p2, maxdepth, (128,255,255))
-#koch (p2, p3, maxdepth, (128,255,255))
-#koch (p3, p1, maxdepth, (128,255,255))
-pygame.display.flip() 
-
 def sierp(a, b, c, color, depth):
     global i
     p1=mix(a, b, 0.5)
@@ -135,15 +90,63 @@ def sierp(a, b, c, color, depth):
         color2 = (color[0], color[1], color[2] * 0.5)
         sierp(p3, p2, c, color2,depth - 1)
 
+def koch(start, end, depth, color):
+    global i
+    depth = depth - 1
+#    if color[1] > 32:
+#        color = (color[0] * ( 1 - random.random()*0.1), color[1] * ( 1 - random.random()*0.1), color[2])
+#    else:
+#        color = (color[0] * ( 1 - random.random()*0.1), color[1], color[2] * ( 1 - random.random()*0.1))
+#    p1 = mix(start, end, (2.25-random.random()*0.5)/3)
+#    p3 = mix(start, end, (1.25-random.random()*0.5)/3)
+#    p2 = rotate2d(-60+random.random()*60-30, p3, p1)
+    p1 = mix(start, end, 2.0/3)
+    p3 = mix(start, end, 1.0/3) 
+#    p2 = rotate2d(-60, p3, p1)
+    p2 = rotate2d(-60, p3, p1)
+    if depth > 0:
+        color2 = (color[0], color[1] * 0.5, color[2])
+        color = (color[0], color[1], color[2] * 0.5)
+        koch(start, p1, depth, color)
+        koch(p1, p2, depth, color2)
+        koch(p2, p3, depth, color2)
+        sierp(p1, p2, p3, color2, depth)
+#        koch(p2, p1, depth, color2)
+#        koch(p3, p2, depth, color2)
+        koch(p3, end, depth, color)
+    else:
+        pygame.draw.line(window, color, start, end)
+        i = i + 1
+        if (i == 50):
+            for event in pygame.event.get(): 
+                if event.type == pygame.QUIT: 
+                    sys.exit(0) 
+                else: 
+                    print event 
+            pygame.display.flip() 
+            i = 0
+
+p1=(350,200)
+p2=(850,200)
+p3=rotate2d(60, p2, p1)
+
+maxdepth=8
+koch (p1, p2, maxdepth, (128,255,255))
+koch (p2, p3, maxdepth, (128,255,255))
+koch (p3, p1, maxdepth, (128,255,255))
+sierp(p1, p2, p3, (128,255,255), maxdepth)
+pygame.display.flip() 
+
+
 maxdepth = 8
 p1=(225,25)
 p2=(975,25)
 p3=rotate2d(60, p2, p1)
 
-pygame.draw.line(window, (255,255,255), p1, p2)
-pygame.draw.line(window, (255,255,255), p2, p3)
-pygame.draw.line(window, (255,255,255), p3, p1)
-sierp(p1, p2, p3, (255, 255, 255), maxdepth)
+#pygame.draw.line(window, (255,255,255), p1, p2)
+#pygame.draw.line(window, (255,255,255), p2, p3)
+#pygame.draw.line(window, (255,255,255), p3, p1)
+#sierp(p1, p2, p3, (255, 255, 255), maxdepth)
 pygame.display.flip() 
 
 print "done"
