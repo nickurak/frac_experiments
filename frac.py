@@ -35,15 +35,17 @@ lenranfactor=0.005
 rotranfactor=10
 lenranfactor=0.0
 rotranfactor=0
+maxdepth=12.0
 
 def makeline(start, end, depth, len, color):
     color = (color[0] * ( 1 - random.random()*0.25), color[1] * ( 1 - random.random()*0.25), color[2] * ( 1 - random.random()*0.25))
     len = len + (random.random() - 0.5) * lenranfactor
+    len = (len+ 1-(1-len) * (depth/maxdepth*2.0))/2
     pygame.draw.line(window, color, start, mix(start, end, len))
     pygame.display.flip() 
     if depth > 0:
-        makeline(mix(start, end, len), rotate2d((random.random() - 0.5) * rotranfactor  + 45 * (depth/10.0), end, mix(start, end, len)), depth -1, len, color)
-        makeline(mix(start, end, len), rotate2d((random.random() - 0.5) * rotranfactor  - 45 * (depth /10.0), end, mix(start, end, len)), depth -1, len, color)
+        makeline(mix(start, end, len), rotate2d((random.random() - 0.5) * rotranfactor  + 30, end, mix(start, end, len)), depth -1, len, color)
+        makeline(mix(start, end, len), rotate2d((random.random() - 0.5) * rotranfactor  - 30, end, mix(start, end, len)), depth -1, len, color)
         
 
 #        makeline(mix(start, end, len), rotate2d(30, end, mix(start, end, len)), depth -1)
@@ -58,7 +60,7 @@ def makeline(start, end, depth, len, color):
        else: 
            print event 
 
-makeline((300,200), (1200,700), 10.0, 2.9/3, (255,255,255))
+makeline((600, 150), (600,800), maxdepth, 2.9/3, (255,255,255))
 #draw it to the screen
 #input handling (somewhat boilerplate code):
 while True:
