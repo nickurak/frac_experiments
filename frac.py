@@ -1,11 +1,12 @@
+#!/usr/bin/env python
 import sys
-#import and init pygame
 import pygame
 import random
 
 random.seed()
 pygame.init() 
 
+frameskip = 5000
 #create the screen
 window = pygame.display.set_mode((1200, 700)) 
 
@@ -72,7 +73,7 @@ def sierp(a, b, c, color, depth):
     pygame.draw.line(window, color, p2, p3)
     pygame.draw.line(window, color, p3, p1)
     i = i + 1
-    if (i == 50):
+    if (i == frameskip):
         pygame.display.flip() 
         i = 0
         for event in pygame.event.get(): 
@@ -117,20 +118,20 @@ def koch(start, end, depth, color):
     else:
         pygame.draw.line(window, color, start, end)
         i = i + 1
-        if (i == 50):
+        if (i == frameskip):
+            pygame.display.flip() 
+            i = 0
             for event in pygame.event.get(): 
                 if event.type == pygame.QUIT: 
                     sys.exit(0) 
                 else: 
                     print event 
-            pygame.display.flip() 
-            i = 0
 
 p1=(350,200)
 p2=(850,200)
 p3=rotate2d(60, p2, p1)
 
-maxdepth=8
+maxdepth=9
 koch (p1, p2, maxdepth, (128,255,255))
 koch (p2, p3, maxdepth, (128,255,255))
 koch (p3, p1, maxdepth, (128,255,255))
@@ -138,7 +139,7 @@ sierp(p1, p2, p3, (128,255,255), maxdepth)
 pygame.display.flip() 
 
 
-maxdepth = 8
+maxdepth = 10
 p1=(225,25)
 p2=(975,25)
 p3=rotate2d(60, p2, p1)
