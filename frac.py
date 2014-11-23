@@ -8,7 +8,7 @@ pygame.init()
 
 frameskip = 5000
 #create the screen
-window = pygame.display.set_mode((1200, 700)) 
+window = pygame.display.set_mode((1920, 1200)) 
 
 #draw a line - see http://www.pygame.org/docs/ref/draw.html for more 
 #pygame.draw.line(window, (255, 255, 255), (0, 0), (30, 50))
@@ -127,8 +127,8 @@ def koch(start, end, depth, color):
                 else: 
                     print event 
 
-p1=(350,200)
-p2=(850,200)
+p1=(0,300)
+p2=(1039,300)
 p3=rotate2d(60, p2, p1)
 
 maxdepth=9
