@@ -16,6 +16,42 @@ height = 1080
 width = min(width, height)
 height = min(height, width)
 
+mhw = min(height, width)
+
+fh = mhw - 20
+# fh = (4.0/3.0) * 0.86602540378 * w
+w = fh / (4.0/3.0) / 0.86602540378
+
+from math import *
+
+def rotate2d(degrees,point,origin):
+    """
+    A rotation function that rotates a point around a point
+    to rotate around the origin use [0,0]
+    """
+    x = point[0] - origin[0]
+    yorz = point[1] - origin[1]
+    newx = (x*cos(radians(degrees))) - (yorz*sin(radians(degrees)))
+    newyorz = (x*sin(radians(degrees))) + (yorz*cos(radians(degrees)))
+    newx += origin[0]
+    newyorz += origin[1]
+
+    return newx,newyorz
+
+def maxsep(*points):
+    m = 0
+    for p1 in points:
+        for p2 in points:
+            m = max(m, abs(p1[0] - p2[0]))
+    return m
+
+
+ip1=(10, fh / 4.0 + 10)
+ip2=(w+10, fh / 4.0 + 10)
+ip3=rotate2d(60, ip2, ip1)
+
+initsep=maxsep(ip1, ip2, ip3)
+
 def end():
     pygame.quit()
     sys.exit()
@@ -36,21 +72,7 @@ window = pygame.display.set_mode((width, height), flags, 16)
 def mix(a, b, r):
     return (a[0] * r + b[0] * (1-r), a[1] * r + b[1] * (1-r))
 
-from math import * 
 
-def rotate2d(degrees,point,origin):
-    """
-    A rotation function that rotates a point around a point
-    to rotate around the origin use [0,0]
-    """
-    x = point[0] - origin[0]
-    yorz = point[1] - origin[1]
-    newx = (x*cos(radians(degrees))) - (yorz*sin(radians(degrees)))
-    newyorz = (x*sin(radians(degrees))) + (yorz*cos(radians(degrees)))
-    newx += origin[0]
-    newyorz += origin[1]
-
-    return newx,newyorz
 
 lenranfactor=0.005
 rotranfactor=10
@@ -59,13 +81,6 @@ rotranfactor=0
 
 
 i = 0
-
-def maxsep(*points):
-    m = 0
-    for p1 in points:
-        for p2 in points:
-            m = max(m, abs(p1[0] - p2[0]))
-    return m
 
 def sierp(a, b, c, color):
     global i
@@ -84,7 +99,7 @@ def sierp(a, b, c, color):
     mindif = 6
     sep = maxsep(p1, p2, p3)
     if sep > mindif:
-        color2 = (255 * float(sep)/height, 255 * float(sep)/height, 255 * float(sep) / height)
+        color2 = (255 * float(sep)/initsep, 255 * float(sep)/initsep, 255 * float(sep) / initsep)
         sierp(p1, p2, p3, color2)
         color3 = (color[0] * 0.5, color[1], color[2])
         sierp(a, p1, p3, color3)
@@ -116,24 +131,13 @@ def koch(start, end, color):
             i = 0
             handle_events()
 
-mhw = min(height, width)
-
-fh = mhw - 20
-# fh = (4.0/3.0) * 0.86602540378 * w
-w = fh / (4.0/3.0) / 0.86602540378
 
 
 
-p1=(10, fh / 4.0 + 10)
-p2=(w+10, fh / 4.0 + 10)
-p3=rotate2d(60, p2, p1)
-
-
-
-koch (p1, p2, (255,255,255))
-koch (p2, p3, (255,255,255))
-koch (p3, p1, (255,255,255))
-sierp(p1, p2, p3, (128,255,255))
+koch (ip1, ip2, (255,255,255))
+koch (ip2, ip3, (255,255,255))
+koch (ip3, ip1, (255,255,255))
+sierp(ip1, ip2, ip3, (128,255,255))
 
 pygame.display.flip()
 pygame.display.flip()
