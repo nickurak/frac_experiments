@@ -70,7 +70,7 @@ flags = FULLSCREEN | DOUBLEBUF
 window = pygame.display.set_mode((width, height), flags, 16)
 
 def mix(a, b, r):
-    return (a[0] * r + b[0] * (1-r), a[1] * r + b[1] * (1-r))
+    return (a[0] / r + b[0] * (r-1) / r, a[1] / r + b[1] * (r-1) / r)
 
 
 
@@ -86,9 +86,9 @@ sierpstack=[]
 
 def sierp(a, b, c, color):
     global i
-    p1=mix(a, b, 0.5)
-    p2=mix(b, c, 0.5)
-    p3=mix(c, a, 0.5)
+    p1=mix(a, b, 2)
+    p2=mix(b, c, 2)
+    p3=mix(c, a, 2)
 
     pygame.draw.line(window, color, p1, p2)
     pygame.draw.line(window, color, p2, p3)
@@ -112,8 +112,8 @@ def sierp(a, b, c, color):
 
 def koch(start, end, color):
     global i
-    p1 = mix(end, start, 1.0/3)
-    p3 = mix(start, end, 1.0/3) 
+    p1 = mix(end, start, 3)
+    p3 = mix(start, end, 3)
     p2 = rotate2d(-60, p3, p1)
     mindif = 1
     sep = maxsep(p1, p2, p3)
