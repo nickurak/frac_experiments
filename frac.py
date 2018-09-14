@@ -138,19 +138,29 @@ def koch(start, end, color):
             handle_events()
 
 
+def maindraw():
+    koch (ip1, ip2, (255,255,255))
+    koch (ip2, ip3, (255,255,255))
+    koch (ip3, ip1, (255,255,255))
+    sierp(ip1, ip2, ip3, (128,255,255))
 
-koch (ip1, ip2, (255,255,255))
-koch (ip2, ip3, (255,255,255))
-koch (ip3, ip1, (255,255,255))
-sierp(ip1, ip2, ip3, (128,255,255))
+    print len(sierpstack)
+    while len(sierpstack) > 0:
+        params = sierpstack.pop(0)
+        sierp(params[0], params[1], params[2], params[3])
 
-print len(sierpstack)
-while len(sierpstack) > 0:
-    params = sierpstack.pop(0)
-    sierp(params[0], params[1], params[2], params[3])
+    pygame.display.flip()
+    pygame.display.flip()
 
-pygame.display.flip()
-pygame.display.flip()
+#maindraw()
+import cProfile
+import re
+cProfile.run('maindraw()', 'restats')
+
+import pstats
+p = pstats.Stats('restats')
+p.strip_dirs().sort_stats('tottime').print_stats()
+p.strip_dirs().sort_stats('cumulative').print_stats()
 
 while True:
     handle_events()
