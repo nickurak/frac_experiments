@@ -16,6 +16,19 @@ height = 980
 width = min(width, height)
 height = min(height, width)
 
+def end():
+    pygame.quit()
+    sys.exit()
+
+def handle_events():
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            end()
+        elif event.type == KEYDOWN and event.key == K_ESCAPE:
+            end()
+        elif event.type == KEYDOWN and event.key == K_q:
+            end()
+
 from pygame.locals import *
 flags = FULLSCREEN | DOUBLEBUF
 window = pygame.display.set_mode((width, height), flags, 16)
@@ -60,11 +73,7 @@ def sierp(a, b, c, color):
     if (i == frameskip):
         pygame.display.flip() 
         i = 0
-        for event in pygame.event.get(): 
-            if event.type == pygame.QUIT: 
-                sys.exit(0) 
-            else: 
-                print event
+        handle_events()
     mindif = 12
     if abs(p1[0] - p3[0]) + abs(p1[0] - p2[0]) + abs(p2[0] - p3[0]) > mindif or abs(p1[1] - p3[1]) + abs(p1[1] - p2[1]) + abs(p2[1] - p3[1]) > mindif:
         color2 = (color[0] * 0.5, color[1] * 0.25, color[2] * 0.25)
@@ -96,11 +105,7 @@ def koch(start, end, color):
         if (i == frameskip):
             pygame.display.flip() 
             i = 0
-            for event in pygame.event.get(): 
-                if event.type == pygame.QUIT: 
-                    sys.exit(0) 
-                else: 
-                    print event 
+            handle_events()
 
 mhw = min(height, width)
 
@@ -124,13 +129,6 @@ sierp(p1, p2, p3, (128,255,255))
 pygame.display.flip()
 pygame.display.flip()
 
-print "done"
-#draw it to the screen
-#input handling (somewhat boilerplate code):
 while True:
-   for event in pygame.event.get(): 
-      if event.type == pygame.QUIT: 
-          sys.exit(0) 
-      else: 
-          print event 
-   pygame.time.wait(10)
+    handle_events()
+    pygame.time.wait(10)
