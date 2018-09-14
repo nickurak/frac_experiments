@@ -9,10 +9,16 @@ pygame.init()
 
 frameskip = 5000
 #create the screen
-window = pygame.display.set_mode((1920, 1080))
 
-#draw a line - see http://www.pygame.org/docs/ref/draw.html for more 
-#pygame.draw.line(window, (255, 255, 255), (0, 0), (30, 50))
+width = 1720
+height = 980
+
+width = min(width, height)
+height = min(height, width)
+
+from pygame.locals import *
+flags = FULLSCREEN | DOUBLEBUF
+window = pygame.display.set_mode((width, height), flags, 16)
 
 def mix(a, b, r):
     return (a[0] * r + b[0] * (1-r), a[1] * r + b[1] * (1-r))
@@ -96,18 +102,27 @@ def koch(start, end, color):
                 else: 
                     print event 
 
-p1=(0,250)
-p2=(800,250)
+mhw = min(height, width)
+
+fh = mhw - 20
+# fh = (4.0/3.0) * 0.86602540378 * w
+w = fh / (4.0/3.0) / 0.86602540378
+
+
+
+p1=(10, fh / 4.0 + 10)
+p2=(w+10, fh / 4.0 + 10)
 p3=rotate2d(60, p2, p1)
 
-koch (p1, p2, (128,255,255))
-koch (p2, p3, (128,255,255))
-koch (p3, p1, (128,255,255))
+
+
+koch (p1, p2, (255,255,255))
+koch (p2, p3, (255,255,255))
+koch (p3, p1, (255,255,255))
 sierp(p1, p2, p3, (128,255,255))
-pygame.display.flip() 
 
-
-pygame.display.flip() 
+pygame.display.flip()
+pygame.display.flip()
 
 print "done"
 #draw it to the screen
