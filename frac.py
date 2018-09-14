@@ -112,7 +112,7 @@ def sierp(a, b, c, color):
 
 def koch(start, end, color):
     global i
-    p1 = mix(start, end, 2.0/3)
+    p1 = mix(end, start, 1.0/3)
     p3 = mix(start, end, 1.0/3) 
     p2 = rotate2d(-60, p3, p1)
     mindif = 1
