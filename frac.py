@@ -10,8 +10,8 @@ pygame.init()
 frameskip = 5000
 #create the screen
 
-width = 1720
-height = 980
+width = 1920
+height = 1080
 
 width = min(width, height)
 height = min(height, width)
