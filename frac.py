@@ -101,11 +101,11 @@ def sierp(a, b, c, color):
     if sep > mindif:
         color2 = (255 * float(sep)/initsep, 255 * float(sep)/initsep, 255 * float(sep) / initsep)
         sierp(p1, p2, p3, color2)
-        color3 = (color[0] * 0.5, color[1], color[2])
+        color3 = (color[0] * 0.7, color[1], color[2])
         sierp(a, p1, p3, color3)
-        color3 = (color[0], color[1] * 0.5, color[2])
+        color3 = (color[0], color[1] * 0.7, color[2])
         sierp(p1, b, p2, color3)
-        color3 = (color[0], color[1], color[2] * 0.5)
+        color3 = (color[0], color[1], color[2] * 0.7)
         sierp(p3, p2, c, color3)
 
 def koch(start, end, color):
