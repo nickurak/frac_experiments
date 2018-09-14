@@ -40,8 +40,8 @@ def rotate2d(degrees,point,origin):
 
 def maxsep(*points):
     m = 0
-    for p1 in points:
-        for p2 in points:
+    for idx, p1 in enumerate(points):
+        for p2 in points[idx+1:]:
             m = max(m, abs(p1[0] - p2[0]))
     return m
 
