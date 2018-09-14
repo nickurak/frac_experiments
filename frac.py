@@ -60,14 +60,12 @@ rotranfactor=0
 
 i = 0
 
-def minsep(mindif, *points):
+def maxsep(*points):
+    m = 0
     for p1 in points:
         for p2 in points:
-            if abs(p1[0] - p2[0]) > mindif:
-                return True
-            if abs(p1[1] - p2[1]) > mindif:
-                return True
-    return False
+            m = max(m, abs(p1[0] - p2[0]))
+    return m
 
 def sierp(a, b, c, color):
     global i
@@ -84,7 +82,8 @@ def sierp(a, b, c, color):
         i = 0
         handle_events()
     mindif = 6
-    if minsep(mindif, p1, p2, p3):
+    sep = maxsep(p1, p2, p3)
+    if sep > mindif:
         color2 = (color[0] * 0.25, color[1] * 0.25, color[2] * 0.25)
         sierp(p1, p2, p3, color2)
         color3 = (color[0] * 0.5, color[1], color[2])
@@ -100,7 +99,8 @@ def koch(start, end, color):
     p3 = mix(start, end, 1.0/3) 
     p2 = rotate2d(-60, p3, p1)
     mindif = 1
-    if minsep(mindif, p1, p2, p3):
+    sep = maxsep(p1, p2, p3)
+    if sep > mindif:
         color2 = (color[0], color[1] * 0.5, color[2])
         color = (color[0], color[1], color[2] * 0.5)
         koch(start, p1, color)
