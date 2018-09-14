@@ -105,7 +105,7 @@ def sierp(a, b, c, color):
         handle_events()
     sep = maxsep(p1, p2, p3)
     if sep > 6:
-        color2 = (255 * float(sep)/initsep, 255 * float(sep)/initsep, 255 * float(sep) / initsep)
+        color2 = (255 * sep / initsep, 255 * sep /initsep, 255 * sep / initsep)
         sierpstack.append((p1, p2, p3, color2))
         color3 = (color[0] * 0.7, color[1], color[2])
         sierpstack.append((a, p1, p3, color3))
