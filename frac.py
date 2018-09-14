@@ -100,9 +100,8 @@ def sierp(a, b, c, color):
         pygame.display.flip() 
         i = 0
         handle_events()
-    mindif = 6
     sep = maxsep(p1, p2, p3)
-    if sep > mindif:
+    if sep > 6:
         color2 = (255 * float(sep)/initsep, 255 * float(sep)/initsep, 255 * float(sep) / initsep)
         sierpstack.append((p1, p2, p3, color2))
         color3 = (color[0] * 0.7, color[1], color[2])
@@ -117,16 +116,16 @@ def koch(start, end, color):
     p1 = mix(end, start, 3)
     p3 = mix(start, end, 3)
     p2 = rotate2d(-60, p3, p1)
-    mindif = 1
     sep = maxsep(p1, p2, p3)
-    if sep > mindif:
+    if sep > 1:
         color2 = (color[0], color[1] * 0.5, color[2])
         color = (color[0], color[1], color[2] * 0.5)
         koch(start, p1, color)
         koch(p1, p2, color2)
         koch(p2, p3, color2)
-        sierpstack.append((p1, p2, p3, color2))
         koch(p3, end, color)
+    if sep > 6:
+        sierpstack.append((p1, p2, p3, color2))
     else:
         pygame.draw.line(window, color, start, end)
         i = i + 1
