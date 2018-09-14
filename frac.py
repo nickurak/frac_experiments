@@ -84,7 +84,7 @@ def sierp(a, b, c, color):
     mindif = 6
     sep = maxsep(p1, p2, p3)
     if sep > mindif:
-        color2 = (color[0] * 0.25, color[1] * 0.25, color[2] * 0.25)
+        color2 = (255 * float(sep)/height, 255 * float(sep)/height, 255 * float(sep) / height)
         sierp(p1, p2, p3, color2)
         color3 = (color[0] * 0.5, color[1], color[2])
         sierp(a, p1, p3, color3)
