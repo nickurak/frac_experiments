@@ -82,6 +82,8 @@ rotranfactor=0
 
 i = 0
 
+sierpstack=[]
+
 def sierp(a, b, c, color):
     global i
     p1=mix(a, b, 0.5)
@@ -100,13 +102,13 @@ def sierp(a, b, c, color):
     sep = maxsep(p1, p2, p3)
     if sep > mindif:
         color2 = (255 * float(sep)/initsep, 255 * float(sep)/initsep, 255 * float(sep) / initsep)
-        sierp(p1, p2, p3, color2)
+        sierpstack.append((p1, p2, p3, color2))
         color3 = (color[0] * 0.7, color[1], color[2])
-        sierp(a, p1, p3, color3)
+        sierpstack.append((a, p1, p3, color3))
         color3 = (color[0], color[1] * 0.7, color[2])
-        sierp(p1, b, p2, color3)
+        sierpstack.append((p1, b, p2, color3))
         color3 = (color[0], color[1], color[2] * 0.7)
-        sierp(p3, p2, c, color3)
+        sierpstack.append((p3, p2, c, color3))
 
 def koch(start, end, color):
     global i
@@ -121,7 +123,7 @@ def koch(start, end, color):
         koch(start, p1, color)
         koch(p1, p2, color2)
         koch(p2, p3, color2)
-        sierp(p1, p2, p3, color2)
+        sierpstack.append((p1, p2, p3, color2))
         koch(p3, end, color)
     else:
         pygame.draw.line(window, color, start, end)
@@ -133,11 +135,15 @@ def koch(start, end, color):
 
 
 
-
 koch (ip1, ip2, (255,255,255))
 koch (ip2, ip3, (255,255,255))
 koch (ip3, ip1, (255,255,255))
 sierp(ip1, ip2, ip3, (128,255,255))
+
+print len(sierpstack)
+while len(sierpstack) > 0:
+    params = sierpstack.pop(0)
+    sierp(params[0], params[1], params[2], params[3])
 
 pygame.display.flip()
 pygame.display.flip()
