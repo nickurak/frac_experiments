@@ -128,6 +128,7 @@ def koch(start, end, color):
         koch(p2, p3, color2)
         koch(p3, end, color)
     if sep > 6:
+	color2 = (color2[0] * 0.5, color2[1] * 0.5, color2[2] * 0.5)
         sierpstack.append((p1, p2, p3, color2))
     else:
         pygame.draw.line(window, color, start, end)
@@ -142,7 +143,7 @@ def maindraw():
     koch (ip1, ip2, (255,255,255))
     koch (ip2, ip3, (255,255,255))
     koch (ip3, ip1, (255,255,255))
-    sierp(ip1, ip2, ip3, (128,255,255))
+    sierp(ip1, ip2, ip3, (64,128,128))
 
     print len(sierpstack)
     while len(sierpstack) > 0:
