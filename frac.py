@@ -127,9 +127,6 @@ def koch(start, end, color):
         koch(p1, p2, color2)
         koch(p2, p3, color2)
         koch(p3, end, color)
-    if sep > 6:
-	color2 = (color2[0] * 0.5, color2[1] * 0.5, color2[2] * 0.5)
-        sierpstack.append((p1, p2, p3, color2))
     else:
         pygame.draw.line(window, color, start, end)
         i = i + 1
@@ -137,6 +134,9 @@ def koch(start, end, color):
             pygame.display.flip() 
             i = 0
             handle_events()
+    if sep > 6:
+        color2 = (color2[0] * 0.5, color2[1] * 0.5, color2[2] * 0.5)
+        sierpstack.append((p1, p2, p3, color2))
 
 
 def maindraw():
