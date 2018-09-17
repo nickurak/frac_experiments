@@ -110,9 +110,9 @@ def sierp(a, b, c, color):
         color3 = (color[0] * 0.7, color[1], color[2])
         sierpstack.append((a, p1, p3, color3))
         color3 = (color[0], color[1] * 0.7, color[2])
-        sierpstack.append((p1, b, p2, color3))
+        sierpstack.append((b, p2, p1, color3))
         color3 = (color[0], color[1], color[2] * 0.7)
-        sierpstack.append((p3, p2, c, color3))
+        sierpstack.append((c, p3, p2, color3))
 
 def koch(start, end, color):
     global i
