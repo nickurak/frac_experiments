@@ -105,8 +105,11 @@ def sierp(a, b, c, color):
         handle_events()
     sep = maxsep(p1, p2, p3)
     if sep > 6:
-        color2 = (255 * sep / initsep, 255 * sep /initsep, 255 * sep / initsep)
-        sierpstack.append((p1, p2, p3, color2))
+        color2 = (color[0] * 0.8, color[1] * 0.8, color[2] * 0.8)
+        koch(p3, p2, color2)
+        koch(p1, p3, color2)
+        koch(p2, p1, color2)
+
         color3 = (color[0] * 0.7, color[1], color[2])
         sierpstack.append((a, p1, p3, color3))
         color3 = (color[0], color[1] * 0.7, color[2])
@@ -143,7 +146,10 @@ def maindraw():
     koch (ip1, ip2, (255,255,255))
     koch (ip2, ip3, (255,255,255))
     koch (ip3, ip1, (255,255,255))
-    sierp(ip1, ip2, ip3, (64,128,128))
+
+    koch (ip2, ip1, (255,255,255))
+    koch (ip3, ip2, (255,255,255))
+    koch (ip1, ip3, (255,255,255))
 
     print len(sierpstack)
     while len(sierpstack) > 0:
