@@ -124,8 +124,8 @@ def koch(start, end, color):
     p2 = rotate2d(-60, p3, p1)
     sep = maxsep(p1, p2, p3)
     if sep > 1:
-        color2 = (color[0], color[1] * 0.5, color[2])
-        color = (color[0], color[1], color[2] * 0.5)
+        color2 = (color[0], color[1] * 0.75, color[2])
+        color = (color[0]*0.75, color[1], color[2])
         koch(start, p1, color)
         koch(p1, p2, color2)
         koch(p2, p3, color2)
