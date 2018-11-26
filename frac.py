@@ -26,7 +26,7 @@ w = fh / (4.0/3.0) / 0.86602540378
 
 from math import *
 
-def rotate2d(degrees,point,origin):
+def rotate2d(degrees, point, origin):
     """
     A rotation function that rotates a point around a point
     to rotate around the origin use [0,0]
