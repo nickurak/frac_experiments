@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import sys
 import pygame
 import random
@@ -151,7 +151,7 @@ def maindraw():
     koch (ip3, ip2, (255,255,255))
     koch (ip1, ip3, (255,255,255))
 
-    print len(sierpstack)
+    print(len(sierpstack))
     while len(sierpstack) > 0:
         params = sierpstack.pop(0)
         sierp(params[0], params[1], params[2], params[3])
