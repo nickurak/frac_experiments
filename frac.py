@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 import sys
-import pygame
 import random
+from math import cos, sin, radians
+
+import pygame
+from pygame.locals import FULLSCREEN, DOUBLEBUF, KEYDOWN, K_ESCAPE, K_q
 
 random.seed()
-pygame.init() 
+pygame.init()
 
+profiling = True
 
 frameskip = 5000
 #create the screen
@@ -24,8 +28,6 @@ fh = mhw - 20
 # fh = (4.0/3.0) * 0.86602540378 * w
 w = fh / (4.0/3.0) / 0.86602540378
 
-from math import *
-
 def rotate2d(degrees, point, origin):
     """
     A rotation function that rotates a point around a point
@@ -38,39 +40,38 @@ def rotate2d(degrees, point, origin):
     newx += origin[0]
     newyorz += origin[1]
 
-    return newx,newyorz
+    return newx, newyorz
 
 def maxsep(p1, p2, p3):
-    m = 0
-    m = max(m, abs(p1[0] - p2[0]))
-    m = max(m, abs(p2[0] - p3[0]))
-    m = max(m, abs(p3[0] - p1[0]))
-    m = max(m, abs(p1[1] - p2[1]))
-    m = max(m, abs(p2[1] - p3[1]))
-    m = max(m, abs(p3[1] - p1[1]))
-    return m
+    top = 0
+    top = max(top, abs(p1[0] - p2[0]))
+    top = max(top, abs(p2[0] - p3[0]))
+    top = max(top, abs(p3[0] - p1[0]))
+    top = max(top, abs(p1[1] - p2[1]))
+    top = max(top, abs(p2[1] - p3[1]))
+    top = max(top, abs(p3[1] - p1[1]))
+    return top
 
 
-ip1=(10, fh / 4.0 + 10)
-ip2=(w+10, fh / 4.0 + 10)
-ip3=rotate2d(60, ip2, ip1)
+ip1 = (10, fh / 4.0 + 10)
+ip2 = (w+10, fh / 4.0 + 10)
+ip3 = rotate2d(60, ip2, ip1)
 
-initsep=maxsep(ip1, ip2, ip3)
+initsep = maxsep(ip1, ip2, ip3)
 
-def end():
+def end_frac():
     pygame.quit()
     sys.exit()
 
 def handle_events():
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            end()
+            end_frac()
         elif event.type == KEYDOWN and event.key == K_ESCAPE:
-            end()
+            end_frac()
         elif event.type == KEYDOWN and event.key == K_q:
-            end()
+            end_frac()
 
-from pygame.locals import *
 flags = FULLSCREEN | DOUBLEBUF
 window = pygame.display.set_mode((width, height), flags, 16)
 
@@ -79,28 +80,28 @@ def mix(a, b, r):
 
 
 
-lenranfactor=0.005
-rotranfactor=10
-lenranfactor=0.0
-rotranfactor=0
+lenranfactor = 0.005
+rotranfactor = 10
+lenranfactor = 0.0
+rotranfactor = 0
 
 
 i = 0
 
-sierpstack=[]
+sierpstack = []
 
 def sierp(a, b, c, color):
     global i
-    p1=mix(a, b, 2)
-    p2=mix(b, c, 2)
-    p3=mix(c, a, 2)
+    p1 = mix(a, b, 2)
+    p2 = mix(b, c, 2)
+    p3 = mix(c, a, 2)
 
     pygame.draw.line(window, color, p1, p2)
     pygame.draw.line(window, color, p2, p3)
     pygame.draw.line(window, color, p3, p1)
     i = i + 1
-    if (i == frameskip):
-        pygame.display.flip() 
+    if i == frameskip:
+        pygame.display.flip()
         i = 0
         handle_events()
     sep = maxsep(p1, p2, p3)
@@ -133,8 +134,8 @@ def koch(start, end, color):
     else:
         pygame.draw.line(window, color, start, end)
         i = i + 1
-        if (i == frameskip):
-            pygame.display.flip() 
+        if i == frameskip:
+            pygame.display.flip()
             i = 0
             handle_events()
     if sep > 6:
@@ -143,31 +144,32 @@ def koch(start, end, color):
 
 
 def maindraw():
-    koch (ip1, ip2, (255,255,255))
-    koch (ip2, ip3, (255,255,255))
-    koch (ip3, ip1, (255,255,255))
+    koch(ip1, ip2, (255, 255, 255))
+    koch(ip2, ip3, (255, 255, 255))
+    koch(ip3, ip1, (255, 255, 255))
 
-    koch (ip2, ip1, (255,255,255))
-    koch (ip3, ip2, (255,255,255))
-    koch (ip1, ip3, (255,255,255))
+    koch(ip2, ip1, (255, 255, 255))
+    koch(ip3, ip2, (255, 255, 255))
+    koch(ip1, ip3, (255, 255, 255))
 
     print(len(sierpstack))
-    while len(sierpstack) > 0:
+    while sierpstack:
         params = sierpstack.pop(0)
         sierp(params[0], params[1], params[2], params[3])
 
     pygame.display.flip()
     pygame.display.flip()
 
-#maindraw()
-import cProfile
-import re
-cProfile.run('maindraw()', 'restats')
+if not profiling:
+    maindraw()
+else:
+    import cProfile
+    import pstats
+    cProfile.run('maindraw()', 'restats')
 
-import pstats
-p = pstats.Stats('restats')
-p.strip_dirs().sort_stats('tottime').print_stats()
-p.strip_dirs().sort_stats('cumulative').print_stats()
+    p = pstats.Stats('restats')
+    p.strip_dirs().sort_stats('tottime').print_stats()
+    p.strip_dirs().sort_stats('cumulative').print_stats()
 
 while True:
     handle_events()
