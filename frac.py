@@ -4,7 +4,7 @@ import random
 from math import cos, sin, radians
 
 import pygame
-from pygame.locals import FULLSCREEN, DOUBLEBUF, KEYDOWN, K_ESCAPE, K_q
+from pygame.locals import FULLSCREEN, DOUBLEBUF, KEYDOWN, K_ESCAPE, K_q, K_SPACE
 
 random.seed()
 pygame.init()
@@ -27,6 +27,8 @@ mhw = min(height, width)
 fh = mhw - 20
 # fh = (4.0/3.0) * 0.86602540378 * w
 w = fh / (4.0/3.0) / 0.86602540378
+
+paused = False
 
 def rotate2d(degrees, point, origin):
     """
@@ -64,13 +66,21 @@ def end_frac():
     sys.exit()
 
 def handle_events():
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            end_frac()
-        elif event.type == KEYDOWN and event.key == K_ESCAPE:
-            end_frac()
-        elif event.type == KEYDOWN and event.key == K_q:
-            end_frac()
+    global paused
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                end_frac()
+            elif event.type == KEYDOWN:
+                if event.key in [K_ESCAPE, K_q]:
+                    end_frac()
+                if event.key == K_SPACE:
+                    paused = not paused
+                elif event.type == KEYDOWN and event.key == K_q:
+                    end_frac()
+        if not paused:
+            break
+        pygame.time.wait(10)
 
 flags = FULLSCREEN | DOUBLEBUF
 window = pygame.display.set_mode((width, height), flags, 16)
